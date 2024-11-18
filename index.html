@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/src/script.js" defer></script>
+  <title>Elsa's Birthday</title>
+</head>
+
+<body class="bg-pink-50 min-h-screen flex flex-col">
+  <div id="app" class="container mx-auto p-4 max-w-md">
+    <div id="main-page">
+      <h1 class="text-3xl font-bold text-center text-pink-600 mb-4">Elsa's Birthday!</h1>
+
+      <p class="text-center mb-6 text-gray-700">
+        Rendez-vous le dimanche 15 décembre pour célébrer Elsa autour d'un brunch de fifou!
+      </p>
+
+      <input id="name-input" type="text" placeholder="Qui es-tu ?" class="w-full p-2 mb-4 border rounded" required>
+      <p id="name-error" class="text-red-500 hidden mb-4">Veuillez entrer votre nom</p>
+
+      <div class="mb-6">
+        <h2 class="font-semibold mb-2">Présence</h2>
+        <div id="presence-options" class="flex space-x-4">
+          <label class="flex items-center">
+            <input type="radio" name="presence" value="Je serai là" class="mr-2" required>
+            Je serai là
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="presence" value="Je ne serai pas là" class="mr-2" required>
+            Je ne serai pas là
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="presence" value="Je ne sais pas encore" class="mr-2" required>
+            Je ne sais pas encore
+          </label>
+        </div>
+        <p id="presence-error" class="text-red-500 hidden mt-2">Veuillez sélectionner votre présence</p>
+      </div>
+
+      <div>
+        <h2 class="font-semibold mb-2">Cadeaux</h2>
+        <div id="gift-options" class="flex space-x-4">
+          <label class="flex items-center">
+            <input type="radio" name="gift" value="Je participe" class="mr-2" required>
+            Je participe
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="gift" value="Je prends un truc de mon coté" class="mr-2" required>
+            Je prends un truc de mon coté
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="gift" value="Qu'elle aille se faire foutre" class="mr-2" required>
+            Qu'elle aille se faire foutre
+          </label>
+        </div>
+        <p id="gift-error" class="text-red-500 hidden mt-2">Veuillez sélectionner une option de cadeau</p>
+
+        <input id="gift-amount" type="number" placeholder="Combien veux-tu mettre ?"
+          class="w-full mb-3 p-2 mt-2 border rounded hidden">
+      </div>
+
+      <div class="mb-4">
+        <textarea id="additional-info" placeholder="Informations supplémentaires" class="w-full p-2 border rounded"
+          rows="3"></textarea>
+      </div>
+
+      <button id="submit-btn" class="w-full mt-4 bg-pink-500 text-white p-2 rounded hover:bg-pink-600">
+        Enregistrer
+      </button>
+
+      <button id="gift-list-btn" class="w-full mt-4 bg-pink-300 text-white p-2 rounded hover:bg-pink-400">
+        Liste des cadeaux
+      </button>
+    </div>
+
+    <div id="pre-confirmation-page" class="hidden text-center">
+      <h1 class="text-2xl font-bold mb-4 text-green-600">Confirmer votre participation</h1>
+      <div id="pre-confirmation-details" class="mb-4"></div>
+      <button id="confirm-email-btn" class="w-full mt-4 bg-pink-500 text-white p-2 rounded hover:bg-pink-600">
+        Confirmer et envoyer un email
+      </button>
+      <button id="cancel-pre-confirmation-btn"
+        class="w-full mt-4 bg-gray-300 text-gray-700 p-2 rounded hover:bg-gray-400">
+        Annuler
+      </button>
+    </div>
+
+    <div id="confirmation-page" class="hidden text-center">
+      <h1 class="text-2xl font-bold mb-4 text-green-600">Merci !</h1>
+      <p id="confirmation-details" class="mb-4"></p>
+      <button id="back-btn" class="w-full mt-4 bg-pink-500 text-white p-2 rounded hover:bg-pink-600">
+        Retour
+      </button>
+    </div>
+
+    <div id="gift-list" class="hidden">
+      <h1 class="text-2xl font-bold mb-4">Exemples de cadeaux</h1>
+      <p class="mb-2">Pin's - <a href="http://">Lien</a></p>
+      <p class="mb-2">Chaussettes d'hiver Nature & Découvertes - <a href="http://">Lien</a></p>
+      <p class="mb-2">Livres - <a href="http://">Lien</a></p>
+      <p class="mb-2">Bougie Dyptique - <a href="http://">Lien</a></p>
+      <p class="mb-2">Soin Oh My Cream - <a href="http://">Lien</a></p>
+      <p class="mb-2">Sac à dos North Face - <a href="http://">Lien</a></p>
+      <p class="mb-2">Vol en mongolfière - <a href="http://">Lien</a></p>
+      <p class="mb-2">Sac Vanessa Bruno - <a href="http://">Lien</a></p>
+      <p class="mb-2">Vélo Voltaire - <a href="http://">Lien</a></p>
+      <button id="back-from-gift-list-btn" class="w-full mt-4 bg-pink-500 text-white p-2 rounded hover:bg-pink-600">
+        Retour
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name-input');
+    const presenceOptions = document.getElementById('presence-options');
+    const giftOptions = document.getElementById('gift-options');
+    const giftAmountInput = document.getElementById('gift-amount');
+    const submitBtn = document.getElementById('submit-btn');
+    const giftListBtn = document.getElementById('gift-list-btn');
+    const mainPage = document.getElementById('main-page');
+    const preConfirmationPage = document.getElementById('pre-confirmation-page');
+    const preConfirmationDetails = document.getElementById('pre-confirmation-details');
+    const confirmEmailBtn = document.getElementById('confirm-email-btn');
+    const cancelPreConfirmationBtn = document.getElementById('cancel-pre-confirmation-btn');
+    const confirmationPage = document.getElementById('confirmation-page');
+    const confirmationDetails = document.getElementById('confirmation-details');
+    const backBtn = document.getElementById('back-btn');
+    const giftList = document.getElementById('gift-list');
+    const backFromGiftListBtn = document.getElementById('back-from-gift-list-btn');
+
+
+    const nameError = document.getElementById('name-error');
+    const presenceError = document.getElementById('presence-error');
+    const giftError = document.getElementById('gift-error');
+
+    let submissionData = {};
+
+    giftOptions.addEventListener('change', function (e) {
+      if (e.target.type === 'radio') {
+        giftAmountInput.classList.toggle('hidden', e.target.value !== 'Je participe');
+      }
+    });
+
+    submitBtn.addEventListener('click', function () {
+      const additionalInfo = document.getElementById('additional-info').value.trim();
+
+      nameError.classList.add('hidden');
+      presenceError.classList.add('hidden');
+      giftError.classList.add('hidden');
+
+      let isValid = true;
+
+      if (!nameInput.value.trim()) {
+        nameError.classList.remove('hidden');
+        isValid = false;
+      }
+
+      const presenceRadio = document.querySelector('input[name="presence"]:checked');
+      if (!presenceRadio) {
+        presenceError.classList.remove('hidden');
+        isValid = false;
+      }
+
+      const giftRadio = document.querySelector('input[name="gift"]:checked');
+      if (!giftRadio) {
+        giftError.classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      const name = nameInput.value;
+      const presence = presenceRadio.value;
+      const gift = giftRadio.value;
+      const giftAmount = gift === 'Je participe' ? giftAmountInput.value : 'N/A';
+
+      submissionData = { name, presence, gift, giftAmount, additionalInfo };
+
+      preConfirmationDetails.innerHTML = `
+                Nom: ${name}<br>
+                Présence: ${presence}<br>
+                Option cadeau: ${gift}<br>
+                Montant: ${giftAmount}
+                ${additionalInfo ? `<br>Infos supplémentaires: ${additionalInfo}` : ''}
+
+            `;
+
+      mainPage.classList.add('hidden');
+      preConfirmationPage.classList.remove('hidden');
+    });
+
+    confirmEmailBtn.addEventListener('click', function () {
+      const emailBody = `
+                Nom: ${submissionData.name}
+                Présence: ${submissionData.presence}
+                Option cadeau: ${submissionData.gift}
+                Montant: ${submissionData.giftAmount}
+                ${submissionData.additionalInfo ? `Informations supplémentaires: ${submissionData.additionalInfo}` : ''}
+
+            `;
+
+      window.location.href = `mailto:hayon.arnaud@gmail.com?subject=Participation%20à%20l'anniversaire%20d'Elsa&body=${encodeURIComponent(emailBody)}`;
+
+      preConfirmationPage.classList.add('hidden');
+      confirmationPage.classList.remove('hidden');
+    });
+
+    cancelPreConfirmationBtn.addEventListener('click', function () {
+      preConfirmationPage.classList.add('hidden');
+      mainPage.classList.remove('hidden');
+    });
+
+    backBtn.addEventListener('click', function () {
+      nameInput.value = '';
+      document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+      giftAmountInput.value = '';
+      giftAmountInput.classList.add('hidden');
+
+      confirmationPage.classList.add('hidden');
+      mainPage.classList.remove('hidden');
+    });
+
+    giftListBtn.addEventListener('click', function () {
+      mainPage.classList.add('hidden');
+      giftList.classList.remove('hidden');
+    });
+
+    backFromGiftListBtn.addEventListener('click', function () {
+      giftList.classList.add('hidden');
+      mainPage.classList.remove('hidden');
+    });
+  </script>
+</body>
+
+</html>
