@@ -86,7 +86,7 @@ const nameInput = document.getElementById('name-input');
 
             `;
 
-      window.location.href = `mailto:hayon.arnaud@gmail.com?subject=Participation%20à%20l'anniversaire%20d'Elsa&body=${encodeURIComponent(emailBody)}`;
+      window.location.href = `mailto:anniversaire.elsa.1512@gmail.com?subject=Participation%20à%20l'anniversaire%20d'Elsa&body=${encodeURIComponent(emailBody)}`;
 
       preConfirmationPage.classList.add('hidden');
       confirmationPage.classList.remove('hidden');
